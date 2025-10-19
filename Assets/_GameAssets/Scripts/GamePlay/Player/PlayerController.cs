@@ -1,10 +1,11 @@
 
+using System;
 using UnityEngine;
-
-
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance{ set; private get; }
+    public static event Action<PlayerState> OnPlayerStateChange;
 
     private Rigidbody _playerRigidbody;
     [SerializeField] private Transform _oriantation;
@@ -44,6 +45,14 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
         _stateController = GetComponent<StateController>();
         _playerRigidbody = GetComponent<Rigidbody>();
         _playerRigidbody.freezeRotation = true;
@@ -139,7 +148,9 @@ public class PlayerController : MonoBehaviour
 
         if (newState != currentState)
         {
+            currentState = newState;
             _stateController.ChangeState(newState);
+            OnPlayerStateChange?.Invoke(newState);
         }
         Debug.Log("Current State: " + newState);
 
