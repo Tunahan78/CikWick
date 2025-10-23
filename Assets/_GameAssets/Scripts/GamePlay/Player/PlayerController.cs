@@ -62,6 +62,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.GetState() == GameState.Pause)
+        {
+            return;
+        } 
+        
         SetInput();
         HandleSlideTimer();
         SetPlayerDamping();

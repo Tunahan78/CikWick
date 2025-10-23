@@ -1,54 +1,60 @@
 using UnityEngine;
 using TMPro;
-using DG.Tweening;
 
-
-
-public class TİmeUI : MonoBehaviour
+public class TimeUI : MonoBehaviour
 {
     [SerializeField] private RectTransform timeRotatible;
     [SerializeField] private TMP_Text textMesh;
 
     [Header("Settings")]
-    [SerializeField] private float rotationSpeed; // Ne kadar hızda dönüceği
-    [SerializeField] private float elapsedTime = 0f; // Geçen süre için
-    private bool isRunnig; // İleride oyunu durdurduğumuzda işimize yarayacak
+    [SerializeField] private float rotationSpeed = 6f; // 6°/saniye
+    private float elapsedTime = 0f;
+    private bool isRunning = false;
 
     private void Start()
     {
         StartTime();
     }
 
-    private void StartTime()
+    private void OnEnable()
     {
-        isRunnig = true;
-        elapsedTime = 0;
-        UpdateTimeDisplay(); // Başlangıçta text'i güncelle
-        RotateClockHand(); // Saat dönmeye başla
+        GameManager.OnChangeState += PauseTime;
     }
 
-    private void RotateClockHand()
+    private void OnDisable()
     {
-        if (!isRunnig) return;
+        GameManager.OnChangeState -= PauseTime;
+    }
 
-        timeRotatible.DORotate(new Vector3(0f, 0f, -rotationSpeed), 1f, RotateMode.FastBeyond360)
-          .SetLoops(-1, LoopType.Incremental) // Sonsuza kadar devam et
-          .SetEase(Ease.Linear); // Doğrusal dön
+    private void PauseTime(GameState state)
+    {
+        isRunning = (state == GameState.Play);
+        Debug.Log("TimeUI: " + state);
+    }
+
+    private void StartTime()
+    {
+        isRunning = true;
+        elapsedTime = 0f;
+        UpdateTimeDisplay();
+        // DOTween kullanmıyoruz
     }
 
     private void Update()
     {
-        if (!isRunnig) return;
+        if (!isRunning) return;
 
         elapsedTime += Time.deltaTime;
         UpdateTimeDisplay();
+
+        // ✅ Saat elini her frame döndür
+        timeRotatible.Rotate(0f, 0f, -rotationSpeed * Time.deltaTime);
     }
 
     private void UpdateTimeDisplay()
     {
         int minute = Mathf.FloorToInt(elapsedTime / 60);
-        int seconde = Mathf.FloorToInt(elapsedTime % 60);
-
-        textMesh.text = string.Format("{0:00}: {1:00} ", minute, seconde);
+        int second = Mathf.FloorToInt(elapsedTime % 60);
+        textMesh.text = string.Format("{0:00}:{1:00}", minute, second);
     }
 }
