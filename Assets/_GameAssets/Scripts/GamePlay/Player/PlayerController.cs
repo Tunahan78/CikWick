@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.GetState() == GameState.Pause)
+        if (GameManager.Instance.GetState() != GameState.Play)
         {
             return;
         } 

@@ -42,6 +42,12 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         Egg.OnCollectEgg += EggCollected;
+        HealtManager.OnPlayerDead += gameStatusLose;
+    }
+
+    private void gameStatusLose()
+    {
+        SetChangeState(GameState.GameOver);
     }
 
     private void OnDisable()
@@ -60,7 +66,7 @@ public class GameManager : MonoBehaviour
         {
             //ToDo : Oyun bitirme ekranı yapılacak
             OnCollectedMaxEgg?.Invoke();
-            Debug.Log("Game Win!!");
+            SetChangeState(GameState.GameWin);
         }
     }
 }

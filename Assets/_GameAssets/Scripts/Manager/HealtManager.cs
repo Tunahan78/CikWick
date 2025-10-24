@@ -24,7 +24,6 @@ public class HealtManager : MonoBehaviour
             if (currentHealt <= 0)
             {
                 OnPlayerDead?.Invoke();
-                //ToDo:Ölme fonksiyonu yaz
             }
         }
     }
