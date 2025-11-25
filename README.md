@@ -3,7 +3,11 @@
 
 
 
-Uploading Ekran Kaydı 2025-11-25 201520.mp4…
+
+
+
+https://github.com/user-attachments/assets/c05f2a45-2b44-472c-adcf-1f4316bd70a8
+
 
 
 
