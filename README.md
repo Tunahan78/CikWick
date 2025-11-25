@@ -1,7 +1,11 @@
 🐣 CikWick: The Fast Food Frenzy
 
 
-https://github.com/user-attachments/assets/ce97b5bb-b7f8-45fd-a5e5-27a7d7e4aeba
+
+
+Uploading Ekran Kaydı 2025-11-25 201520.mp4…
+
+
 
 
 
